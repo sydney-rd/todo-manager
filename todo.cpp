@@ -45,17 +45,22 @@ int main(int argc, char** argv) {
 
         std::ifstream file2("todo.txt");
         std::string todoline;
-        int i = 1;
+        i = 1;
         std::ofstream temp;
         temp.open("temp.txt");
-        while (std::getline(file2, todoline) {
+        while (std::getline(file2, todoline)) {
             if (i != todo_delete) {
                 temp << todoline << std::endl;
             }
             i++;
         }
-        
         file.close();
+        temp.close();
+        
+        std::ofstream updatedfile;
+        updatedfile.open("todo.txt");
+        updatedfile << temp.rdbuf();
+        updatedfile.close();
     } else 
         std::cout << "Invalid input" << std::endl; //no command
 

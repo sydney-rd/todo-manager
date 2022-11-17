@@ -23,24 +23,49 @@ inside my project's directory. Input is like writing something down, Output is r
 #include <cstring>
 
 int main(int argc, char** argv) {
-    std::ofstream todo_list;
+    std::ofstream file;
+    std::string todoList;
+    int i = 0;
+
+
+    if (argc > 3) {
+        std::cout << "Error, too many arguments." << std::endl;
+    }
 
     if (std::string(argv[1]) == "view") {
+        std::ifstream file("todo.txt");
+        while(std::getline(file, todoList)) {
+            std::cout << ++i << ". " << todoList << std::endl;
+        }
+        file.close();
+    } else if (std::string(argv[1]) == "add" && argc == 3) {
+        file.open("todo.txt", std::ios::app);
+        file << argv[2] << "\n";
+        file.close();
 
-    }
+    } else if (std::string(argv[1]) == "delete") {
+        int todo_delete;
+        std::string line, deleteline;
 
-    // add to list
-    else if (std::string(argv[1]) == "add") {
-        todo_list.open("to-do.txt", std::ios::app);
-        todo_list << argv[2] << "\n";
-        todo_list.close();
-    }
+        std::ifstream file("todo.txt");
+        while (!file.eof()) {
+            std::getline(file, todoList);
+            std::cout << ++i << ". " << todoList << std::endl;
+        }
+        std::cout << "Please enter the number to delete: " << std::endl;
+        std::cin >> todo_delete;
+        while(getline(file, line)) {
+            line.replace(line.find(deleteline), deleteline.length(),"");
+            file << line << std::endl;
+        }
+       
+        
 
-    else if (std::string(argv[1]) == "remove") {
-        std::cout << "remove ex" << std::endl; //remove
-    }
-    else 
-        std::cout << "error" << std::endl; //no command
+
+
+
+    } else 
+        std::cout << "Invalid input" << std::endl; //no command
 
     return 0;
 }

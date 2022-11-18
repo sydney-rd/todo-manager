@@ -15,7 +15,9 @@ You can then choose between:
 ./todo view
 
 add "" will add a task within quotes to your todo list
+
 delete will allow you to delete a specific task on your todo list
+
 view will allow you to view your task list
 
 

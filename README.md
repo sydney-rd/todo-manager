@@ -9,7 +9,9 @@ g++ todo.cpp -o todo
 You can then choose between:
 
 ./todo add "enter a task"
+
 ./todo delete
+
 ./todo view
 
 add "" will add a task within quotes to your todo list

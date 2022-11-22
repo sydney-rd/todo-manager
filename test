@@ -6,3 +6,10 @@ g++ todo.cpp -o todo
 ./todo add "task3"
 ./todo delete
 ./todo view
+
+#sequence of cmds run in terminal, put cmds in file, sh is bash. 
+# add #!/bin/bash to top of file to execute as a bash script
+# 1. create a file example: touch myscript
+# 2. give it permission to run. Type in terminal: chmod 700 myscript 
+# 3. add commands in the file
+# 4. run example: ./myscript

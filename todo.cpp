@@ -3,61 +3,80 @@
 #include <fstream>
 #include <cstring>
 
-void numbered_list() {
-    std::string todoList;
+void print_numbered_list() {
+    std::string line;
     int i = 0;
     std::ifstream file("todo.txt"); 
-    while(std::getline(file, todoList)) { 
-    std::cout << ++i << ". " << todoList << std::endl;
+    while(std::getline(file, line)) { 
+        std::cout << ++i << ". " << line << std::endl;
     }
 }
 
-void error_msg(int argc, char** argv) {
-    if (std::string(argv[1]) != "delete" && std::string(argv[1]) != "view" && std::string(argv[1]) != "add") {
-        std::cout << "Error: enter delete, view, or add\n";
-    }
+void add_task(const char* newtask) {
+    std::ofstream file;
+    file.open("todo.txt", std::ios::app); 
+    file << newtask << "\n"; 
+    file.close();
 }
 
-void view_list(int argc, char** argv) {
-int i = 0;
-std::ifstream file("todo.txt"); 
-std::string todoList;
-    if (std::string(argv[1]) == "view" && argc == 2) {
-        numbered_list();
-        file.close();
+bool ValidInputQ(int line_no) {
+    std::string line;
+    int lines = 0;
+    std::ifstream file("todo.txt"); 
+    while (std::getline(file, line)) { 
+        lines++;
     }
+    return lines >= line_no && line_no > 0;
 }
 
-void add_task(int argc, char** argv) {
-    if (std::string(argv[1]) == "add" && argc == 3) {
-        std::ofstream file;
-        file.open("todo.txt", std::ios::app); 
-        file << argv[2] << "\n"; 
-        file.close();
+int GetLineToDeleteX() {
+    int line_no;
+    std::cout << "Enter a line number to delete: ";
+    std::cin >> line_no;
+    if(!ValidInputQ(line_no)) {
+        std::cout << "invalid input" << std::endl;
+        exit(1);
     }
+    return line_no;
 }
 
-void delete_task(int argc, char** argv) {
-    int i = 0, todo_delete;
-    if (std::string(argv[1]) == "delete" && argc == 2) {
-        std::ifstream file("todo.txt"); 
-        numbered_list();
-        std::cout << "Enter a line number to delete: ";
-        std::cin >> todo_delete;
-        std::string cmd = "sed -i.bak -e '" + std::to_string(todo_delete) + "d' todo.txt; rm todo.txt.bak";
-        system(cmd.c_str());
-        file.close();
+void delete_task() {
+    int i = 1;
+    int line_no = GetLineToDeleteX();;
+    std::ifstream ifs("todo.txt");
+    std::ofstream ofs("temp.txt");
+    std::string line;
+    while(std::getline(ifs, line)) {
+        if (i != line_no) {
+            ofs << line << std::endl;
+        }
+        i++;
+    }  
+
+    ifs.close();
+    ofs.close();
+    ifs.open("temp.txt");
+    ofs.open("todo.txt");
+    while(std::getline(ifs, line)) {
+        ofs << line << std::endl;   
     }
+    ofs.close();
+    ifs.close();
+    remove("temp.txt");
 }
 
 int main(int argc, char** argv) {
-    view_list(argc, argv);
-    add_task(argc, argv);
-    delete_task(argc, argv);
-    error_msg(argc, argv);
+    if (argc < 2 || argc > 3) {
+        std::cout << "Invalid input" << std::endl;
+        return 1;
+    } if (argc == 2 && std::string(argv[1]) == "view") {
+        print_numbered_list();
+    } else if (argc == 2 && std::string(argv[1]) == "delete") {
+        print_numbered_list();
+        delete_task();
+    } else if (argc == 3 && std::string(argv[1]) == "add") {
+        add_task(argv[2]);
+    }
 
     return 0;
 }
-
-
-

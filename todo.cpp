@@ -7,7 +7,7 @@ void print_numbered_list() {
     std::string line;
     int i = 0;
     std::ifstream file("todo.txt"); 
-    while(std::getline(file, line)) { 
+    while (std::getline(file, line)) { 
         std::cout << ++i << ". " << line << std::endl;
     }
 }
@@ -33,7 +33,7 @@ int GetLineToDeleteX() {
     int line_no;
     std::cout << "Enter a line number to delete: ";
     std::cin >> line_no;
-    if(!ValidInputQ(line_no)) {
+    if (!ValidInputQ(line_no)) {
         std::cout << "invalid input" << std::endl;
         exit(1);
     }
@@ -46,7 +46,7 @@ void delete_task() {
     std::ifstream ifs("todo.txt");
     std::ofstream ofs("temp.txt");
     std::string line;
-    while(std::getline(ifs, line)) {
+    while (std::getline(ifs, line)) {
         if (i != line_no) {
             ofs << line << std::endl;
         }

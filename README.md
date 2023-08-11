@@ -1,6 +1,6 @@
-# todo-manager
+# Todo Manager
 
-This is a program that creates a todo list that will automatically save your list as a txt file.
+This is a program that creates a to-do list that will automatically save your list as a .txt file! Forgo the pen and paper 📝
 
 From the terminal, run:
 
